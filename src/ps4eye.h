@@ -163,6 +163,7 @@ namespace ps4eye {
         int uvc_set_white_balance_temperature(uint16_t temperature);
         int uvc_get_gain(uint16_t* gain, uint8_t req_code);
         int uvc_set_gain(uint16_t gain);
+		int uvc_set_ae_mode(uint8_t mode);
         int uvc_get_power_line_frequency(uint8_t* power_line_frequency, uint8_t req_code);
         int uvc_set_power_line_frequency(uint8_t power_line_frequency);
 

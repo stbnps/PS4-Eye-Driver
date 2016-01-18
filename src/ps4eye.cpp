@@ -2175,6 +2175,29 @@ int PS4EYECam::uvc_set_gain(uint16_t gain) {
 	else
 		return ret;
 }
+
+
+int PS4EYECam::uvc_set_ae_mode(uint8_t mode) {
+	uint8_t data[1];
+	int ret;
+
+	data[0] = mode;
+
+	ret = libusb_control_transfer(
+		handle_,
+		REQ_TYPE_SET, UVC_SET_CUR,
+		UVC_CT_AE_MODE_CONTROL << 8,
+		1 << 8,
+		data,
+		sizeof(data),
+		0);
+
+	if (ret == sizeof(data))
+		return 0;
+	else
+		return ret;
+}
+
 int PS4EYECam::uvc_get_power_line_frequency(uint8_t* power_line_frequency,
 		uint8_t req_code) {
 	uint8_t data[1];
@@ -2432,7 +2455,11 @@ bool PS4EYECam::open_usb() {
 
 	res = libusb_claim_interface(handle_, 0);
 	
-	//uvc_set_gain(100000);
+
+	// mode 2 turns on auto exposure
+	uvc_set_ae_mode(2);
+
+
 
 
 	//set all setting 0 to interface 1
